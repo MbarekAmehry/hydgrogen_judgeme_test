@@ -16,6 +16,7 @@ import favicon from '../public/favicon.svg';
 import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
+import {useJudgeme} from '@judgeme/shopify-hydrogen'
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -99,6 +100,14 @@ export async function loader({context}) {
       header: await headerPromise,
       isLoggedIn,
       publicStoreDomain,
+
+      judgeme: {
+        shopDomain: "amehry.myshopify.com",
+        publicToken: "mTTB3vtemjxP_MJUUj_Vzonuhrc",
+        cdnHost: "https://cdn.judge.me",
+        delay: 500, // optional parameter, default to 500ms
+      },
+
     },
     {headers},
   );
@@ -108,6 +117,8 @@ export default function App() {
   const nonce = useNonce();
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+  useJudgeme(data.judgeme);
+  
 
   return (
     <html lang="en">
@@ -116,8 +127,12 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        {/* <script>jdgm = window.jdgm || {};jdgm.SHOP_DOMAIN = 'amehry.myshopify.com';jdgm.PLATFORM = 'shopify';jdgm.PUBLIC_TOKEN = 'mTTB3vtemjxP_MJUUj_Vzonuhrc';</script>
+<script data-cfasync='false' type='text/javascript' async src='https://cdn.judge.me/widget_preloader.js'></script>
+<script data-cfasync='true' type='text/javascript' async src='https://cdn1.judge.me/assets/installed.js'></script> */}
       </head>
       <body>
+     
         <Layout {...data}>
           <Outlet />
         </Layout>

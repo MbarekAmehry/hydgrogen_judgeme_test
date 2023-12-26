@@ -1,7 +1,10 @@
 import {Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData} from '@remix-run/react';
-
+import {
+  JudgemePreviewBadge,
+  JudgemeReviewWidget
+} from "@judgeme/shopify-hydrogen";
 import {
   Image,
   Money,
@@ -150,6 +153,8 @@ function ProductMain({selectedVariant, product, variants}) {
   return (
     <div className="product-main">
       <h1>{title}</h1>
+      <JudgemePreviewBadge id="6744718409779"/>
+
       <ProductPrice selectedVariant={selectedVariant} />
       <br />
       <Suspense
@@ -182,9 +187,14 @@ function ProductMain({selectedVariant, product, variants}) {
       <br />
       <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
       <br />
+
+      <JudgemeReviewWidget id="6744718409779"/>
+
+
     </div>
   );
 }
+
 
 /**
  * @param {{
