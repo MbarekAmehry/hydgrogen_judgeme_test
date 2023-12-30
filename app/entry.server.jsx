@@ -15,12 +15,7 @@ export default async function handleRequest(
   responseHeaders,
   remixContext,
 ) {
-  const {nonce, header, NonceProvider} = createContentSecurityPolicy({
-    connect-src: [
-      "'self'",
-      'https://*.judge.me',
-    ],
-  });
+  const {nonce, header, NonceProvider} = createContentSecurityPolicy();
   
   const body = await renderToReadableStream(
     <NonceProvider>
@@ -41,8 +36,8 @@ export default async function handleRequest(
     await body.allReady;
   }
 
-  responseHeaders.set('Content-Type', 'text/html');
-  responseHeaders.set('Content-Security-Policy', header);
+  const cspHeader = "connect-src 'self' localhost:* ws://localhost:* ws://127.0.0.1:* https://*.judge.me;";
+  responseHeaders.set('Content-Security-Policy', cspHeader);
   return new Response(body, {
     headers: responseHeaders,
     status: responseStatusCode,
